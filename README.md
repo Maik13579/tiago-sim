@@ -1,5 +1,7 @@
 # tiago-sim
 
+![](imgs/sim.png)
+
 ## Dependencies
  - [Docker](https://www.docker.com/)
  - [Base Image](https://github.com/Maik13579/ros-docker-base-image/tree/master)
