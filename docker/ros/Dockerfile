@@ -56,7 +56,7 @@ RUN apt-get update && rosdep install --from-paths src --ignore-src -y --rosdistr
 
 #Get the latest version of the object-map-server
 WORKDIR /tmp
-RUN git clone https://github.com/Maik13579/object-map-server.git \
+RUN git clone --branch feature-grid_map https://github.com/Maik13579/object-map-server.git \
     && mkdir -p /root/python \
     && cp -r object-map-server/python /root/python/object-map-server \
     && cp -r object-map-server/ros/* /root/catkin_ws/src/ \
@@ -67,6 +67,8 @@ RUN git clone https://github.com/Maik13579/object-map-server.git \
 #Build python package
 WORKDIR /root/python/object-map-server
 RUN python3 setup.py bdist_wheel sdist && pip3 install -e .
+
+RUN pip3 install --upgrade scipy
 
 #Build catkin workspace
 WORKDIR /root/catkin_ws

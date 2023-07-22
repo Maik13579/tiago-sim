@@ -32,4 +32,5 @@ services:
         rosrun look_to_point look_to_point &
         sleep 10
         rosservice call /object_map_server/spawn_gazebo "{}" 
+        rosservice call /object_map_server/generate_occupancy_grid "{}"
         tail -f /dev/null
