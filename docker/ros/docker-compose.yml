@@ -21,6 +21,7 @@ services:
       - $HOME/.Xauthority:/root/.Xauthority
       - ../../config:/config
       - ../../config_pal:/root/.pal
+      - ../../launch:/launch
     command: #TODO add custom launch file :)
       - bash
       - -c
@@ -34,6 +35,7 @@ services:
         sleep 10
         rosservice call /object_map_server/spawn_gazebo "{}" 
         rosservice call /object_map_server/generate_occupancy_grid "{}"
-        roslaunch pal_navigation_cfg_tiago localization_amcl.launch map_topic:=/object_map_server/map  scan_topic:=/scan_raw &
-        roslaunch tiago_2dnav move_base.launch public_sim:=true local_planner:=teb &
+        sleep 3
+        roslaunch /launch/amcl.launch map_topic:=/object_map_server/map  scan_topic:=/scan_raw &
+        roslaunch /launch/move_base.launch public_sim:=true local_planner:=teb &
         tail -f /dev/null

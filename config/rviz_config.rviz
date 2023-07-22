@@ -6,6 +6,10 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /object_map_server1
+        - /tiago1
+        - /move_base1
+        - /move_base1/costmaps1
       Splitter Ratio: 0.5
     Tree Height: 752
   - Class: rviz/Selection
@@ -25,7 +29,7 @@ Panels:
   - Class: rviz/Time
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: LaserScan
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -403,36 +407,64 @@ Visualization Manager:
           Use Fixed Frame: true
           Use rainbow: true
           Value: true
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 10
+            Min Value: -10
+            Value: true
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: RGB8
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Min Color: 0; 0; 0
+          Name: PointCloud2
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.009999999776482582
+          Style: Flat Squares
+          Topic: /xtion/depth_registered/points
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
       Enabled: true
       Name: tiago
-    - Alpha: 1
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 10
-        Min Value: -10
-        Value: true
-      Axis: Z
-      Channel Name: intensity
-      Class: rviz/PointCloud2
-      Color: 255; 255; 255
-      Color Transformer: RGB8
-      Decay Time: 0
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Group
+          Displays:
+            - Alpha: 0.699999988079071
+              Class: rviz/Map
+              Color Scheme: costmap
+              Draw Behind: false
+              Enabled: true
+              Name: local_costmap
+              Topic: /move_base/local_costmap/costmap
+              Unreliable: false
+              Use Timestamp: false
+              Value: true
+            - Alpha: 0.699999988079071
+              Class: rviz/Map
+              Color Scheme: costmap
+              Draw Behind: false
+              Enabled: true
+              Name: global_costmap
+              Topic: /move_base/global_costmap/costmap
+              Unreliable: false
+              Use Timestamp: false
+              Value: true
+          Enabled: true
+          Name: costmaps
       Enabled: true
-      Invert Rainbow: false
-      Max Color: 255; 255; 255
-      Min Color: 0; 0; 0
-      Name: PointCloud2
-      Position Transformer: XYZ
-      Queue Size: 10
-      Selectable: true
-      Size (Pixels): 3
-      Size (m): 0.009999999776482582
-      Style: Flat Squares
-      Topic: /xtion/depth_registered/points
-      Unreliable: false
-      Use Fixed Frame: true
-      Use rainbow: true
-      Value: true
+      Name: move_base
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
