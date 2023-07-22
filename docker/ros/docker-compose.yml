@@ -6,7 +6,7 @@ services:
     runtime: nvidia
     environment:
       DISPLAY: $DISPLAY
-      WAIT_FOR_ROSCORE: 1
+      WAIT_FOR_ROSCORE: 0
       ROS_IP: $ROS_IP
       ROS_HOSTNAME: $ROS_HOSTNAME
       ROS_MASTER_URI: $ROS_MASTER_URI
