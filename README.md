@@ -9,18 +9,10 @@
 ```bash
 docker-compose -f docker/build.yml build ros
 ```
-### ROS2 Humble
-```bash
-docker-compose -f docker/build.yml build ros2
-```
 ## Getting started
 ### ROS1 Noetic
 ```bash
 docker-compose -f docker/ros/docker-compose.yml up
-```
-### ROS2 Humble
-```bash
-docker-compose -f docker/ros2/docker-compose.yml up
 ```
 
 ## Authors
