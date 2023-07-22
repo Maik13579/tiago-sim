@@ -19,4 +19,4 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - $HOME/.Xauthority:/root/.Xauthority
-    command: rosrun ros_tiago_sim main.py
+    command: roslaunch tiago_gazebo tiago_gazebo.launch public_sim:=true end_effector:=pal-gripper
