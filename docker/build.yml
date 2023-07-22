@@ -1,0 +1,15 @@
+version: '2.4'
+services:
+  ros:
+    container_name: tiago-sim_ros_build
+    image: tiago-sim:noetic
+    build:
+      context: ..
+      dockerfile: docker/ros/Dockerfile
+  ros2:
+    container_name: tiago-sim_ros2_build
+    image: tiago-sim:humble
+    build:
+      context: ..
+      dockerfile: docker/ros2/Dockerfile
+      
