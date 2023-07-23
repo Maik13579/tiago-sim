@@ -25,8 +25,6 @@ services:
       - bash
       - -c
       - |
-        source /opt/ros/noetic/setup.bash
-        source /root/catkin_ws/devel/setup.bash
         roslaunch /launch/tiago_sim.launch gzpose:="-x -1.0 -y -4.5 -z 0.0 -R 0.0 -P 0.0 -Y 1.57" &
         sleep 10
         roslaunch /launch/navigation.launch &
