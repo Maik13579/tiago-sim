@@ -1,6 +1,6 @@
 # tiago-sim
 
-![](imgs/sim.png)
+![](imgs/tiago_sim.gif)
 
 ## Dependencies
  - [Docker](https://www.docker.com/)
