@@ -75,3 +75,6 @@ WORKDIR /root/catkin_ws
 RUN bash -c "source /opt/ros/noetic/setup.bash \
     && catkin_make -DCATKIN_ENABLE_TESTING=0 -j $(expr `nproc` / 2) \
     && echo 'source /root/catkin_ws/devel/setup.bash' >> ~/.bashrc"
+
+COPY config /config
+COPY launch /launch

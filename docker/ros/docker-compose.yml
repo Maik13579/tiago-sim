@@ -20,7 +20,6 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - $HOME/.Xauthority:/root/.Xauthority
       - ../../config:/config
-      - ../../config_pal:/root/.pal
       - ../../launch:/launch
     command: #TODO add custom launch file :)
       - bash
@@ -36,6 +35,5 @@ services:
         rosservice call /object_map_server/spawn_gazebo "{}" 
         rosservice call /object_map_server/generate_occupancy_grid "{}"
         sleep 3
-        roslaunch /launch/amcl.launch map_topic:=/object_map_server/map  scan_topic:=/scan_raw &
-        roslaunch /launch/move_base.launch public_sim:=true local_planner:=teb &
+        roslaunch /launch/navigation.launch &
         tail -f /dev/null
