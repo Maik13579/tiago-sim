@@ -5,5 +5,5 @@ services:
     image: tiago-sim:noetic
     build:
       context: ..
-      dockerfile: docker/ros/Dockerfile
+      dockerfile: docker/Dockerfile
       
