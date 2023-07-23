@@ -29,8 +29,5 @@ services:
         source /root/catkin_ws/devel/setup.bash
         roslaunch /launch/tiago_sim.launch gzpose:="-x -1.0 -y -4.5 -z 0.0 -R 0.0 -P 0.0 -Y 1.57" &
         sleep 10
-        rosservice call /object_map_server/spawn_gazebo "{}" 
-        rosservice call /object_map_server/generate_occupancy_grid "{}"
-        sleep 3
         roslaunch /launch/navigation.launch &
         tail -f /dev/null

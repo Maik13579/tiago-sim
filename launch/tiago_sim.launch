@@ -3,6 +3,7 @@
 <launch>
   <arg name="end_effector" default="pal-gripper"/>
   <arg name="gzpose" default="-x 0.0 -y 0.0 -z 0.0 -R 0.0 -P 0.0 -Y 0.0"/>
+  <arg name="object_map_server" default="true"/>
   <arg name="frame_path" default="/maps/robocup_2023/frames"/>
   <arg name="object_path" default="/maps/robocup_2023/objects"/>
   <arg name="rviz" default="true"/>
@@ -17,7 +18,12 @@
   </include>
 
   <!-- Object Map Server-->
-  <node name="object_map_server" pkg="ros_object_map_server" type="main.py" output="screen" args="$(arg frame_path) $(arg object_path)"/>
+  <group if="$(arg object_map_server)">
+    <node name="object_map_server" pkg="ros_object_map_server" type="main.py" output="screen" args="$(arg frame_path) $(arg object_path)"/>
+    <!-- Trigger rosservices, increase sleep if gazebo takes longer to start-->
+    <node pkg="rosservice" type="rosservice" name="rosservice_spawn_gazebo" output="screen" args="call --wait /object_map_server/spawn_gazebo" launch-prefix="bash -c 'sleep 5.0; $0 $@' "/>
+    <node pkg="rosservice" type="rosservice" name="rosservice_generate_map" output="screen" args="call --wait /object_map_server/generate_occupancy_grid" launch-prefix="bash -c 'sleep 3.0 ; $0 $@' " />
+  </group>
 
   <!-- Rviz -->
   <group if="$(arg rviz)">
