@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
+  <!-- Initial Pose -->
+  <arg name="x" default="0.0"/>
+  <arg name="y" default="0.0"/>
+  <arg name="yaw" default="0.0"/>
+
   <arg name="end_effector" default="pal-gripper"/>
-  <arg name="gzpose" default="-x 0.0 -y 0.0 -z 0.0 -R 0.0 -P 0.0 -Y 0.0"/>
   <arg name="object_map_server" default="true"/>
   <arg name="frame_path" default="/maps/robocup_2023/frames"/>
   <arg name="object_path" default="/maps/robocup_2023/objects"/>
@@ -16,7 +20,6 @@
   <arg name="odom_topic"    default="mobile_base_controller/odom"/>
   <arg name="cmd_vel_topic" default="nav_vel"/>
 
-  <arg name="initial_pose_params" default="$(find tiago_sim)/config/localization/initial_pose.yaml"/>
   <arg name="amcl_params" default="$(find tiago_sim)/config/localization/amcl.yaml"/>
 
   <arg name="move_base_params" default="$(find tiago_sim)/config/move_base/move_base.yaml"/>
@@ -34,7 +37,7 @@
   <include file="$(find tiago_gazebo)/launch/tiago_gazebo.launch">
     <arg name="public_sim" value="true"/>
     <arg name="end_effector"     value="$(arg end_effector)"/>
-    <arg name="gzpose" value="$(arg gzpose)"/>
+    <arg name="gzpose" value="-x $(arg x) -y $(arg y) -z 0.0 -R 0.0 -P 0.0 -Y $(arg yaw)"/>
   </include>
 
   <!-- Object Map Server-->
@@ -63,7 +66,9 @@
       <arg name="odom_topic" value="$(arg odom_topic)"/>
       <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/>
 
-      <arg name="initial_pose_params" value="$(arg initial_pose_params)"/>
+      <arg name="inital_pose_x" value="$(arg x)"/>
+      <arg name="inital_pose_y" value="$(arg y)"/>
+      <arg name="inital_pose_yaw" value="$(arg yaw)"/>
       <arg name="amcl_params" value="$(arg amcl_params)"/>
 
       <arg name="move_base_params" value="$(arg move_base_params)"/>

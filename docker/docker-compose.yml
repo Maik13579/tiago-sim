@@ -20,4 +20,4 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - $HOME/.Xauthority:/root/.Xauthority
       - ../tiago_sim:/root/catkin_ws/src/tiago_sim
-    command: roslaunch tiago_sim tiago_sim.launch gzpose:="-x -1.0 -y -4.5 -z 0.0 -R 0.0 -P 0.0 -Y 1.57"
+    command: roslaunch tiago_sim tiago_sim.launch x:=-1.0 y:=-4.5 yaw:=1.57

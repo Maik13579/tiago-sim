@@ -3,15 +3,17 @@
   <arg name="scan_topic" default="scan_raw"/>
   <arg name="map_topic" default="/object_map_server/map"/>
 
-  <arg name="initial_pose_params" default="$(find tiago_sim)/config/localization/initial_pose.yaml"/>
+  <arg name="inital_pose_x" default="0.0"/>
+  <arg name="inital_pose_y" default="0.0"/>
+  <arg name="inital_pose_yaw" default="0.0"/>
   <arg name="amcl_params" default="$(find tiago_sim)/config/localization/amcl.yaml"/>
 
   <node pkg="amcl" type="amcl" name="amcl" output="screen">
     <remap from="scan" to="$(arg scan_topic)"/>
     <remap from="map" to="$(arg map_topic)"/>
-
-    <!-- Load the last saved pose estimate (initial pose) -->
-    <rosparam file="$(arg initial_pose_params)" command="load"/>
     <rosparam file="$(arg amcl_params)" command="load"/>
+    <param name="initial_pose_x" value="$(arg inital_pose_x)"/>
+    <param name="initial_pose_y" value="$(arg inital_pose_y)"/>
+    <param name="initial_pose_a" value="$(arg inital_pose_yaw)"/>
   </node>
 </launch>
