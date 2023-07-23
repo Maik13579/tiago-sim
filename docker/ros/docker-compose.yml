@@ -21,16 +21,13 @@ services:
       - $HOME/.Xauthority:/root/.Xauthority
       - ../../config:/config
       - ../../launch:/launch
-    command: #TODO add custom launch file :)
+    command: #TODO add custom ros package :)
       - bash
       - -c
       - |
         source /opt/ros/noetic/setup.bash
         source /root/catkin_ws/devel/setup.bash
-        roslaunch tiago_gazebo tiago_gazebo.launch public_sim:=true end_effector:=pal-gripper gzpose:="-x -1.0 -y -4.5 -z 0.0 -R 0.0 -P 0.0 -Y 1.57" &
-        rosrun ros_object_map_server main.py --frame_path /maps/robocup_2023/frames --object_path /maps/robocup_2023/objects &
-        rosrun rviz rviz -d /config/rviz_config.rviz &
-        rosrun look_to_point look_to_point &
+        roslaunch /launch/tiago_sim.launch gzpose:="-x -1.0 -y -4.5 -z 0.0 -R 0.0 -P 0.0 -Y 1.57" &
         sleep 10
         rosservice call /object_map_server/spawn_gazebo "{}" 
         rosservice call /object_map_server/generate_occupancy_grid "{}"
