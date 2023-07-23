@@ -19,13 +19,5 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - $HOME/.Xauthority:/root/.Xauthority
-      - ../config:/config
-      - ../launch:/launch
-    command: #TODO add custom ros package :)
-      - bash
-      - -c
-      - |
-        roslaunch /launch/tiago_sim.launch gzpose:="-x -1.0 -y -4.5 -z 0.0 -R 0.0 -P 0.0 -Y 1.57" &
-        sleep 3
-        roslaunch /launch/navigation.launch &
-        tail -f /dev/null
+      - ../tiago_sim:/root/catkin_ws/src/tiago_sim
+    command: roslaunch tiago_sim tiago_sim.launch gzpose:="-x -1.0 -y -4.5 -z 0.0 -R 0.0 -P 0.0 -Y 1.57"

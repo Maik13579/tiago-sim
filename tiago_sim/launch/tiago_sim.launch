@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <arg name="end_effector" default="pal-gripper"/>
+  <arg name="gzpose" default="-x 0.0 -y 0.0 -z 0.0 -R 0.0 -P 0.0 -Y 0.0"/>
+  <arg name="object_map_server" default="true"/>
+  <arg name="frame_path" default="/maps/robocup_2023/frames"/>
+  <arg name="object_path" default="/maps/robocup_2023/objects"/>
+  <arg name="rviz" default="true"/>
+  <arg name="rviz_config" default="$(find tiago_sim)/config/rviz_config.rviz"/>
+  <arg name="look_to_point" default="true"/>
+
+  <!-- Navigation Args -->
+  <arg name="navigation" default="true"/>
+  <arg name="scan_topic" default="scan_raw"/>
+  <arg name="map_topic" default="/object_map_server/map"/>
+  <arg name="odom_topic"    default="mobile_base_controller/odom"/>
+  <arg name="cmd_vel_topic" default="nav_vel"/>
+
+  <arg name="initial_pose_params" default="$(find tiago_sim)/config/localization/initial_pose.yaml"/>
+  <arg name="amcl_params" default="$(find tiago_sim)/config/localization/amcl.yaml"/>
+
+  <arg name="move_base_params" default="$(find tiago_sim)/config/move_base/move_base.yaml"/>
+  <arg name="recovery_behaviors_params" default="$(find tiago_sim)/config/move_base/recovery_behaviors.yaml"/>
+  <arg name="global_costmap_plugins_params" default="$(find tiago_sim)/config/move_base/global_costmap_plugins.yaml"/>
+  <arg name="global_costmap_params" default="$(find tiago_sim)/config/move_base/global_costmap.yaml"/>
+  <arg name="local_costmap_plugins_params" default="$(find tiago_sim)/config/move_base/local_costmap_plugins.yaml"/>
+  <arg name="local_costmap_params" default="$(find tiago_sim)/config/move_base/local_costmap.yaml"/>
+  <arg name="global_planner_params" default="$(find tiago_sim)/config/move_base/global_planner.yaml"/>
+  <arg name="local_planner_params" default="$(find tiago_sim)/config/move_base/local_planner.yaml"/>
+
+
+
+  <!-- Tiago Gazebo -->
+  <include file="$(find tiago_gazebo)/launch/tiago_gazebo.launch">
+    <arg name="public_sim" value="true"/>
+    <arg name="end_effector"     value="$(arg end_effector)"/>
+    <arg name="gzpose" value="$(arg gzpose)"/>
+  </include>
+
+  <!-- Object Map Server-->
+  <group if="$(arg object_map_server)">
+    <node name="object_map_server" pkg="ros_object_map_server" type="main.py" output="screen" args="$(arg frame_path) $(arg object_path)"/>
+    <!-- Trigger rosservices, increase sleep if gazebo takes longer to start-->
+    <node pkg="rosservice" type="rosservice" name="rosservice_spawn_gazebo" output="screen" args="call --wait /object_map_server/spawn_gazebo" launch-prefix="bash -c 'sleep 5.0; $0 $@' "/>
+    <node pkg="rosservice" type="rosservice" name="rosservice_generate_map" output="screen" args="call --wait /object_map_server/generate_occupancy_grid" launch-prefix="bash -c 'sleep 3.0 ; $0 $@' " />
+  </group>
+
+  <!-- Rviz -->
+  <group if="$(arg rviz)">
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rviz_config)" output="screen"/>
+  </group>
+
+  <!-- Look to point -->
+  <group if="$(arg look_to_point)">
+    <node name="look_to_point" pkg="look_to_point" type="look_to_point" output="screen"/>
+  </group>
+
+  <!-- Navigation -->
+  <group if="$(arg navigation)">
+    <include file="$(find tiago_sim)/launch/navigation.launch">
+      <arg name="scan_topic" value="$(arg scan_topic)"/>
+      <arg name="map_topic" value="$(arg map_topic)"/>
+      <arg name="odom_topic" value="$(arg odom_topic)"/>
+      <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/>
+
+      <arg name="initial_pose_params" value="$(arg initial_pose_params)"/>
+      <arg name="amcl_params" value="$(arg amcl_params)"/>
+
+      <arg name="move_base_params" value="$(arg move_base_params)"/>
+      <arg name="recovery_behaviors_params" value="$(arg recovery_behaviors_params)"/>
+      <arg name="global_costmap_plugins_params" value="$(arg global_costmap_plugins_params)"/>
+      <arg name="global_costmap_params" value="$(arg global_costmap_params)"/>
+      <arg name="local_costmap_plugins_params" value="$(arg local_costmap_plugins_params)"/>
+      <arg name="local_costmap_params" value="$(arg local_costmap_params)"/>
+      <arg name="global_planner_params" value="$(arg global_planner_params)"/>
+      <arg name="local_planner_params" value="$(arg local_planner_params)"/>
+    </include>
+  </group>
+
+</launch>

@@ -1,6 +1,6 @@
 version: '2.4'
 services:
-  ros:
+  build_tiago_sim:
     container_name: tiago-sim_ros_build
     image: tiago-sim:noetic
     build:

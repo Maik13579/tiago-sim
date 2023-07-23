@@ -5,14 +5,14 @@
   <arg name="scan_topic" default="scan_raw"/>
   <arg name="map_topic" default="/object_map_server/map"/>
 
-  <arg name="move_base_params" default="/config/move_base/move_base.yaml"/>
-  <arg name="recovery_behaviors_params" default="/config/move_base/recovery_behaviors.yaml"/>
-  <arg name="global_costmap_plugins_params" default="/config/move_base/global_costmap_plugins.yaml"/>
-  <arg name="global_costmap_params" default="/config/move_base/global_costmap.yaml"/>
-  <arg name="local_costmap_plugins_params" default="/config/move_base/local_costmap_plugins.yaml"/>
-  <arg name="local_costmap_params" default="/config/move_base/local_costmap.yaml"/>
-  <arg name="global_planner_params" default="/config/move_base/global_planner.yaml"/>
-  <arg name="local_planner_params" default="/config/move_base/local_planner.yaml"/>
+  <arg name="move_base_params" default="$(find tiago_sim)/config/move_base/move_base.yaml"/>
+  <arg name="recovery_behaviors_params" default="$(find tiago_sim)/config/move_base/recovery_behaviors.yaml"/>
+  <arg name="global_costmap_plugins_params" default="$(find tiago_sim)/config/move_base/global_costmap_plugins.yaml"/>
+  <arg name="global_costmap_params" default="$(find tiago_sim)/config/move_base/global_costmap.yaml"/>
+  <arg name="local_costmap_plugins_params" default="$(find tiago_sim)/config/move_base/local_costmap_plugins.yaml"/>
+  <arg name="local_costmap_params" default="$(find tiago_sim)/config/move_base/local_costmap.yaml"/>
+  <arg name="global_planner_params" default="$(find tiago_sim)/config/move_base/global_planner.yaml"/>
+  <arg name="local_planner_params" default="$(find tiago_sim)/config/move_base/local_planner.yaml"/>
 
 
   <node pkg="move_base" type="move_base" name="move_base" clear_params="true" output="screen">

@@ -4,6 +4,7 @@ FROM ros-base-image:$ROS_DISTRO
 
 WORKDIR /root/catkin_ws
 
+#Install Tiago from https://github.com/pal-robotics/tiago_tutorials/blob/noetic-devel/Dockerfile
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils \
     libv4l-dev \
@@ -50,13 +51,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && wget https://raw.githubusercontent.com/pal-robotics/tiago_tutorials/noetic-devel/tiago_public-noetic.rosinstall \
   && vcs import src < tiago_public-noetic.rosinstall
 
-ARG ROSDEP_IGNORE="urdf_test omni_drive_controller orocos_kdl pal_filters libgazebo9-dev pal_usb_utils speed_limit_node camera_calibration_files pal_moveit_plugins pal_startup_msgs pal_local_joint_control pal_pcl_points_throttle_and_filter current_limit_controller hokuyo_node dynamixel_cpp pal_moveit_capabilities pal_pcl dynamic_footprint gravity_compensation_controller pal-orbbec-openni2 pal_loc_measure pal_map_manager ydlidar_ros_driver"
-
-RUN apt-get update && rosdep install --from-paths src --ignore-src -y --rosdistro noetic --skip-keys="${ROSDEP_IGNORE}"
-
-#Get the latest version of the object-map-server
+#Get the tested commit version of object-map-server
 WORKDIR /tmp
-RUN git clone --branch feature-grid_map https://github.com/Maik13579/object-map-server.git \
+RUN git clone https://github.com/Maik13579/object-map-server.git \
+    && cd object-map-server \
+    && git checkout e9282498cf479b816058b3dc69db272dfb907b66 \
+    && cd .. \
     && mkdir -p /root/python \
     && cp -r object-map-server/python /root/python/object-map-server \
     && cp -r object-map-server/ros/* /root/catkin_ws/src/ \
@@ -70,11 +70,16 @@ RUN python3 setup.py bdist_wheel sdist && pip3 install -e .
 
 RUN pip3 install --upgrade scipy
 
-#Build catkin workspace
+#Get tiago sim
+COPY tiago_sim /root/catkin_ws/src/tiago_sim
+
 WORKDIR /root/catkin_ws
+
+#Install deps
+ARG ROSDEP_IGNORE="urdf_test omni_drive_controller orocos_kdl pal_filters libgazebo9-dev pal_usb_utils speed_limit_node camera_calibration_files pal_moveit_plugins pal_startup_msgs pal_local_joint_control pal_pcl_points_throttle_and_filter current_limit_controller hokuyo_node dynamixel_cpp pal_moveit_capabilities pal_pcl dynamic_footprint gravity_compensation_controller pal-orbbec-openni2 pal_loc_measure pal_map_manager ydlidar_ros_driver"
+RUN apt-get update && rosdep install --from-paths src --ignore-src -y --rosdistro noetic --skip-keys="${ROSDEP_IGNORE}"
+
+#Build catkin workspace
 RUN bash -c "source /opt/ros/noetic/setup.bash \
     && catkin_make -DCATKIN_ENABLE_TESTING=0 -j $(expr `nproc` / 2) \
     && echo 'source /root/catkin_ws/devel/setup.bash' >> ~/.bashrc"
-
-COPY config /config
-COPY launch /launch

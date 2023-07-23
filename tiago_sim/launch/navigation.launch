@@ -6,20 +6,20 @@
   <arg name="odom_topic"    default="mobile_base_controller/odom"/>
   <arg name="cmd_vel_topic" default="nav_vel"/>
 
-  <arg name="initial_pose_params" default="/config/localization/initial_pose.yaml"/>
-  <arg name="amcl_params" default="/config/localization/amcl.yaml"/>
+  <arg name="initial_pose_params" default="$(find tiago_sim)/config/localization/initial_pose.yaml"/>
+  <arg name="amcl_params" default="$(find tiago_sim)/config/localization/amcl.yaml"/>
 
-  <arg name="move_base_params" default="/config/move_base/move_base.yaml"/>
-  <arg name="recovery_behaviors_params" default="/config/move_base/recovery_behaviors.yaml"/>
-  <arg name="global_costmap_plugins_params" default="/config/move_base/global_costmap_plugins.yaml"/>
-  <arg name="global_costmap_params" default="/config/move_base/global_costmap.yaml"/>
-  <arg name="local_costmap_plugins_params" default="/config/move_base/local_costmap_plugins.yaml"/>
-  <arg name="local_costmap_params" default="/config/move_base/local_costmap.yaml"/>
-  <arg name="global_planner_params" default="/config/move_base/global_planner.yaml"/>
-  <arg name="local_planner_params" default="/config/move_base/local_planner.yaml"/>
+  <arg name="move_base_params" default="$(find tiago_sim)/config/move_base/move_base.yaml"/>
+  <arg name="recovery_behaviors_params" default="$(find tiago_sim)/config/move_base/recovery_behaviors.yaml"/>
+  <arg name="global_costmap_plugins_params" default="$(find tiago_sim)/config/move_base/global_costmap_plugins.yaml"/>
+  <arg name="global_costmap_params" default="$(find tiago_sim)/config/move_base/global_costmap.yaml"/>
+  <arg name="local_costmap_plugins_params" default="$(find tiago_sim)/config/move_base/local_costmap_plugins.yaml"/>
+  <arg name="local_costmap_params" default="$(find tiago_sim)/config/move_base/local_costmap.yaml"/>
+  <arg name="global_planner_params" default="$(find tiago_sim)/config/move_base/global_planner.yaml"/>
+  <arg name="local_planner_params" default="$(find tiago_sim)/config/move_base/local_planner.yaml"/>
 
   <!-- Localization -->
-  <include file="/launch/amcl.launch">
+  <include file="$(find tiago_sim)/launch/amcl.launch">
     <arg name="scan_topic"     value="$(arg scan_topic)"/>
     <arg name="map_topic" value="$(arg map_topic)"/>
     <arg name="initial_pose_params" value="$(arg initial_pose_params)"/>
@@ -27,7 +27,7 @@
   </include>
 
   <!-- Move Base -->
-  <include file="/launch/move_base.launch">
+  <include file="$(find tiago_sim)/launch/move_base.launch">
     <arg name="scan_topic" value="$(arg scan_topic)"/>
     <arg name="map_topic" value="$(arg map_topic)"/>
     <arg name="odom_topic" value="$(arg odom_topic)"/>

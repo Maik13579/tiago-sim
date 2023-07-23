@@ -9,12 +9,12 @@
 ## Build
 ### ROS1 Noetic
 ```bash
-docker-compose -f docker/build.yml build ros
+docker-compose -f docker/build.yml build
 ```
 ## Getting started
 ### ROS1 Noetic
 ```bash
-docker-compose -f docker/ros/docker-compose.yml up
+docker-compose -f docker/docker-compose.yml up
 ```
 
 ## Authors
